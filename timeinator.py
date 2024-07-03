@@ -138,7 +138,8 @@ class BurpExtender(
             # Stick payload into request at specified position
             # Use lambda function for replacement string to stop slashes being
             # escaped
-            request = sub("\xa7[^\xa7]*\xa7", lambda x: payload, self._request)
+            decoded_request = self._request.tostring().decode("utf-8")
+            request = sub("\xa7[^\xa7]*\xa7", lambda x: payload, decoded_request)
             request = self._updateContentLength(request)
             for _ in xrange(self._numReq):
                 # Make request and work out how long it took in ms. This method
